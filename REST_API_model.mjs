@@ -20,7 +20,7 @@ let connection = undefined;
 async function connect(){
     try{
         connection = await mongoose.connect
-            (process.env.MONGODB_CONNECT_STRING, {dbName: EXERCISE_DB_NAME});
+            (process.env.MONGODB_CONNECT_STRING, {dbName: DB_NAME});
         console.log("Successfully connected to MongoDB using Mongoose!");
     } catch(err){
         console.log(err);
