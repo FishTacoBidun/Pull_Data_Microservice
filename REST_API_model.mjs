@@ -11,22 +11,48 @@ const SIDE_SCROLLER_DB_NAME = 'side_scroller_db';
 const HIKES_DB_NAME = 'hikes_db';
 const HABITS_DB_NAME = 'habits_db';
 
-let connection = undefined;
+let connection1 = undefined;
+let connection2 = undefined;
+let connection3 = undefined;
+let connection4 = undefined;
 
 // ADD conditional to check which custom HTTP header was sent from the calling program to select DB
-
 /**
 * This function connects to the MongoDB server and to the database
 * 'exercise_db' in that server.
 */
-async function connect(){
+async function connectToDatabases() {
     try{
-        connection = await mongoose.connect
-            (process.env.MONGODB_CONNECT_STRING, {dbName: DB_NAME});
-        console.log("Successfully connected to MongoDB using Mongoose!");
+        connection1 = await mongoose.connect
+            (process.env.MONGODB_CONNECT_STRING, {dbName: CALORIES_DB_NAME});
+        console.log("Successfully connected to MongoDB - Calories using Mongoose!");
     } catch(err){
         console.log(err);
-        throw Error(`Could not connect to MongoDB ${err.message}`)
+        throw Error(`Could not connect to MongoDB - Calories ${err.message}`)
+    }
+    try{
+        connection2 = await mongoose.connect
+            (process.env.MONGODB_CONNECT_STRING, {dbName: SIDE_SCROLLER_DB_NAME});
+        console.log("Successfully connected to MongoDB - Side Scroller using Mongoose!");
+    } catch(err){
+        console.log(err);
+        throw Error(`Could not connect to MongoDB - Side Scroller ${err.message}`)
+    }
+    try{
+        connection3 = await mongoose.connect
+            (process.env.MONGODB_CONNECT_STRING, {dbName: HIKES_DB_NAME});
+        console.log("Successfully connected to MongoDB - Hikes using Mongoose!");
+    } catch(err){
+        console.log(err);
+        throw Error(`Could not connect to MongoDB - Hikes ${err.message}`)
+    }
+    try{
+        connection4 = await mongoose.connect
+            (process.env.MONGODB_CONNECT_STRING, {dbName: HABITS_DB_NAME});
+        console.log("Successfully connected to MongoDB - Habits using Mongoose!");
+    } catch(err){
+        console.log(err);
+        throw Error(`Could not connect to MongoDB - Habits ${err.message}`)
     }
 }
 
@@ -298,7 +324,7 @@ const deleteHabitsDataById = async(id) => {
     return
 }
 
-export { connect, create_calorie_entry, create_side_scroller_data, create_hikes_data,
+export { connectToDatabases, create_calorie_entry, create_side_scroller_data, create_hikes_data,
     create_habits_data, getCalorieEntries, getSideScrollerData, getHikesData, 
     getHabitsData, getCalorieEntryById, getSideScrollerDataById, getHikesDataById,
     getHabitsDataById, updateCalorieEntry, updateSideScrollerData, updateHikesData,
