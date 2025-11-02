@@ -1,12 +1,10 @@
-// This is where we will write the model of the REST API for our database_microservice REST API
+//File: model.mjs containing the models for the individual databases and database operations for our database_microservice REST API
+//Programmer Name: Kelsey Shanks, Wolfie Essink
 
-/**
-* Programmer Name: Kelsey Shanks, Wolfgang
-*/
 import mongoose from 'mongoose';
 import 'dotenv/config';
 
-const CALORIES_DB_NAME = 'calories_db';         // update with name of data base?
+const CALORIES_DB_NAME = 'calories_db';
 const SIDE_SCROLLER_DB_NAME = 'side_scroller_db';
 const HIKES_DB_NAME = 'hikes_db';
 const HABITS_DB_NAME = 'habits_db';
@@ -16,11 +14,10 @@ let connection2 = undefined;
 let connection3 = undefined;
 let connection4 = undefined;
 
-// ADD conditional to check which custom HTTP header was sent from the calling program to select DB
-/**
-* This function connects to the MongoDB server and to the database
-* 'exercise_db' in that server.
-*/
+//ADD conditional to check which custom HTTP header was sent from the calling program to select DB
+//This function connects to the MongoDB server and to the database
+//'exercise_db' in that server.
+
 async function connectToDatabases() {
     try{
         connection1 = await mongoose.connect
@@ -56,7 +53,8 @@ async function connectToDatabases() {
     }
 }
 
-// Schema - Calorie-Counter App:            // update all schema with keys and typings
+//SCHEMAS
+//Calorie-Counter App
 const calorieCounterSchema = mongoose.Schema({
     key1: {type: String, required: true},
     key2: {type: Number, required: true},
@@ -65,16 +63,13 @@ const calorieCounterSchema = mongoose.Schema({
     key5: {type: String, required: true}
 })
 
-// Schema - Side Scroller Web App:
+//Side-Scroller Web App
 const sideScrollerSchema = mongoose.Schema({
-    key1: {type: String, required: true},
-    key2: {type: Number, required: true},
-    key3: {type: String, required: true},
-    key4: {type: Number, required: true},
-    key5: {type: String, required: true}
+    levelId: {type: Number, required: true, unique: true},
+    unlocked: {type: Boolean, required: true, default: false}
 })
 
-// Schema - My Hikes Web App:
+//My Hikes Web App
 const myHikesSchema = mongoose.Schema({
     key1: {type: String, required: true},
     key2: {type: Number, required: true},
@@ -83,7 +78,7 @@ const myHikesSchema = mongoose.Schema({
     key5: {type: String, required: true}
 })
 
-// Schema - Habit Tracking Web App:
+//Habit Tracking Web App
 const habitTrackerSchema = mongoose.Schema({
     key1: {type: String, required: true},
     key2: {type: Number, required: true},
@@ -92,16 +87,16 @@ const habitTrackerSchema = mongoose.Schema({
     key5: {type: String, required: true}
 })
 
-// Compile model from schema after defining
+//Compile model from schema after defining
 const Calorie_Entry = mongoose.model(CALORIES_DB_NAME, calorieCounterSchema);
 const Side_Scroller_Data = mongoose.model(SIDE_SCROLLER_DB_NAME, sideScrollerSchema);
 const Hikes_Data = mongoose.model(HIKES_DB_NAME, myHikesSchema);
 const Habits_Data = mongoose.model(HABITS_DB_NAME, habitTrackerSchema);
 
-//------------------- CREATE FOR EACH SCHEMA--------------------------  // update all creates with keys
+//CREATE FOR EACH SCHEMA
 
 /**
-* Creates new Calorie_Entry object in database
+Creates new Calorie_Entry object in database
 * @param {string} key1
 * @param {number} key2
 * @param {string} key3
@@ -116,15 +111,12 @@ const create_calorie_entry = async(val1, val2, val3, val4, val5) => {
 
 /**
 * Creates new Side_Scroller_Data object in database
-* @param {string} key1
-* @param {number} key2
-* @param {string} key3
-* @param {number} key4
-* @param {string} key5
+* @param {number} levelId
+* @param {boolean} unlocked
 * @returns {object} side_scroller_data
 */
-const create_side_scroller_data = async(val1, val2, val3, val4, val5) => { 
-    const side_scroller_data = new Side_Scroller_Data({key1: val1, key2: val2, key3: val3, key4: val4, key5: val5});
+const create_side_scroller_data = async(levelId, unlocked) => { 
+    const side_scroller_data = new Side_Scroller_Data({levelId: levelId, unlocked: unlocked});
     return side_scroller_data.save();
 }
 
@@ -156,7 +148,7 @@ const create_habits_data = async(val1, val2, val3, val4, val5) => {
     return habits_data.save();
 }
 
-//------------------- GET FOR EACH SCHEMA (LIST)--------------------------
+//UPDATE FOR EACH SCHEMA
 
 /**
 * Pulls all Calorie_Entry objects in database as array
@@ -173,6 +165,16 @@ const getCalorieEntries = async() => {
 */
 const getSideScrollerData = async() => {
     const query = Side_Scroller_Data.find();
+    return query.exec();
+}
+
+/**
+* Pulls Side_Scroller_Data object with matching levelId
+* @param {number} levelId
+* @returns {object}
+*/
+const getSideScrollerDataByLevelId = async(levelId) => {
+    const query = Side_Scroller_Data.findOne({levelId: levelId});
     return query.exec();
 }
 
@@ -194,7 +196,7 @@ const getHabitsData = async() => {
     return query.exec();
 }
 
-//------------------- GET FOR EACH SCHEMA (MATCH)--------------------------
+//GET FOR EACH SCHEMA (MATCH)
 
 /**
 * Pulls Calorie_Entry object with matching ID from database
@@ -236,7 +238,7 @@ const getHabitsDataById = async(id) => {
     return query.exec();
 }
 
-//------------------- UPDATE FOR EACH SCHEMA--------------------------
+//UPDATE FOR EACH SCHEMA
 
 /**
 * Updates Calorie_Entry object in database with new data
@@ -266,7 +268,7 @@ const updateSideScrollerData = async(id, update) => {
 * Updates Hikes_Data object in database with new data
 * @param {string} id
 * @param {object} update
-* @returns {object} updatedSideScrollerData
+* @returns {object} updatedKikingData
 */
 const updateHikesData = async(id, update) => {
     await Hikes_Data.updateOne({_id: id}, update).exec();
@@ -286,7 +288,7 @@ const updateHabitsData = async(id, update) => {
     return updatedHabitsData;
 }
 
-//------------------- DELETE FOR EACH SCHEMA--------------------------
+//DELETE FOR EACH SCHEMA
 
 /**
 * Deletes Calorie_Entry object from database
@@ -324,11 +326,11 @@ const deleteHabitsDataById = async(id) => {
     return
 }
 
+//Export all functions
 export { connectToDatabases, create_calorie_entry, create_side_scroller_data, create_hikes_data,
     create_habits_data, getCalorieEntries, getSideScrollerData, getHikesData, 
-    getHabitsData, getCalorieEntryById, getSideScrollerDataById, getHikesDataById,
+    getHabitsData, getCalorieEntryById, getSideScrollerDataById, getSideScrollerDataByLevelId, getHikesDataById,
     getHabitsDataById, updateCalorieEntry, updateSideScrollerData, updateHikesData,
     updateHabitsData, deleteCalorieEntryById, deleteSideScrollerDataById, 
     deleteHikesDataById, deleteHabitsDataById
 };
-
