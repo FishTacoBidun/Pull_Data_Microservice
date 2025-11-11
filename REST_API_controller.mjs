@@ -192,19 +192,77 @@ app.get('/hikes/:id', asyncHandler (async (req, res) => {    // ------ ENDPOINT 
 
 // --------------------------------------------- UPDATE OPERATIONS ---------------------------------------------------------
 
-app.put('/data_entries/:id', asyncHandler (async (req, res) => {    // --------ENDPOINT #4: Update data---------
+app.put('/calories/:id', asyncHandler (async (req, res) => {    // --------ENDPOINT #4: Update - Calories ---------
     // Check validity:
 
     // Continue if valid:
-    let eProperties = Object.keys(oldData);
-    for (let i=0; i < eProperties.length; i++){
+    const oldEntry = calories.getCalorieEntryById(req.params.id);
+    let eProperties = Object.keys(oldEntry);
+    for (let i=0; i < eProperties.length; i++){                    // check that update has all properties
         if(Object.hasOwnProperty(eProperties[0]) !== Object.hasOwnProperty(req.body)){
         res.status(400).json(ERROR_INVALID_REQ);                    // if missing property
-    }
-    }
-    let updatedData = await data_entires.updateData(req.params.id, req.body); // refers to function from main asking to update data
-    res.status(200).json(updatedData);                              // if succesful result
+    }}
+    let updatedEntry = await calories.updateCalorieEntry(req.params.id, req.body); 
+    res.status(200).json(updatedEntry);                           
 }));
+
+app.put('/selections/:id', asyncHandler (async (req, res) => {    // --------ENDPOINT #4: Update - Selections ---------
+    // Check validity:
+
+    // Continue if valid:
+    const oldEntry = selections.getSelectionById(req.params.id);
+    let eProperties = Object.keys(oldEntry);
+    for (let i=0; i < eProperties.length; i++){                    // check that update has all properties
+        if(Object.hasOwnProperty(eProperties[0]) !== Object.hasOwnProperty(req.body)){
+        res.status(400).json(ERROR_INVALID_REQ);                    // if missing property
+    }}
+    let updatedEntry = await selections.updateSelection(req.params.id, req.body); 
+    res.status(200).json(updatedEntry);                           
+}));
+
+app.put('/side_scroller/:levelId', asyncHandler (async (req, res) => {    // --------ENDPOINT #4: Update - Side Scroller ---------
+    // Check validity:
+
+    // Continue if valid:
+    const oldData = side_scroller.getSideScrollerDataByLevelId(req.params.levelId);
+    let eProperties = Object.keys(oldData);
+    for (let i=0; i < eProperties.length; i++){                    // check that update has all properties
+        if(Object.hasOwnProperty(eProperties[0]) !== Object.hasOwnProperty(req.body)){
+        res.status(400).json(ERROR_INVALID_REQ);                    // if missing property
+    }}
+    let updatedData = await side_scroller.updateSideScrollerData(req.params.levelId, req.body); 
+    res.status(200).json(updatedData);                           
+}));
+
+app.put('/habits/:id', asyncHandler (async (req, res) => {    // --------ENDPOINT #4: Update - Habits ---------
+    // Check validity:
+
+    // Continue if valid:
+    const oldEntry = habits.getHabitsDataById(req.params.id);
+    let eProperties = Object.keys(oldEntry);
+    for (let i=0; i < eProperties.length; i++){                    // check that update has all properties
+        if(Object.hasOwnProperty(eProperties[0]) !== Object.hasOwnProperty(req.body)){
+        res.status(400).json(ERROR_INVALID_REQ);                    // if missing property
+    }}
+    let updatedEntry = await habits.updateHabitsData(req.params.id, req.body); 
+    res.status(200).json(updatedEntry);                           
+}));
+
+app.put('/hikes/:id', asyncHandler (async (req, res) => {    // --------ENDPOINT #4: Update - Hikes ---------
+    // Check validity:
+
+    // Continue if valid:
+    const oldEntry = hikes.getHikesDataById(req.params.id);
+    let eProperties = Object.keys(oldEntry);
+    for (let i=0; i < eProperties.length; i++){                    // check that update has all properties
+        if(Object.hasOwnProperty(eProperties[0]) !== Object.hasOwnProperty(req.body)){
+        res.status(400).json(ERROR_INVALID_REQ);                    // if missing property
+    }}
+    let updatedEntry = await hikes.updateHikesData(req.params.id, req.body); 
+    res.status(200).json(updatedEntry);                           
+}));
+
+// ---------------------------------------------------------------------------------------------------------------
 
 app.delete('/data_entries/:id', asyncHandler (async (req, res) => {    // --------ENDPOINT #5: Delete data---------
     let toRemove = await data_entries.getDataById(req.params.id);
