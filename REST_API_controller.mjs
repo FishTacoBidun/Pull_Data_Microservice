@@ -142,15 +142,55 @@ app.get('/hikes', asyncHandler (async (req, res) => {        // --------ENDPOINT
 
 //-------------------------------------------- GET OPERATIONS - By ID ------------------------------------------------
 
+app.get('/calories/:id', asyncHandler (async (req, res) => {    // ------ ENDPOINT #3: Pull data by ID - Calories -------
+    let entry = await calories.getCalorieEntryById(req.params.id);
+    if (entry === null){
+        res.status(404).json(ERROR_NOT_FOUND);                      // if no match
+    } else {
+        res.status(200).json(entry);                                 // if match
+    }}));
 
+app.get('/selections/:id', asyncHandler (async (req, res) => {    // ------ ENDPOINT #3: Pull data by ID - Selection -------
+    let option = await selections.getSelectionById(req.params.id);
+    if (option === null){
+        res.status(404).json(ERROR_NOT_FOUND);                          // if no match
+    } else {
+        res.status(200).json(option);                                   // if match
+    }}));
 
-app.get('/data_entires/:id', asyncHandler (async (req, res) => {    // --------ENDPOINT #3: Pull specific data---------
-    let data = await data_entries.getDataById(req.params.id);
+app.get('/side-scroller/:id', asyncHandler (async (req, res) => {    // ------ ENDPOINT #3.1: Pull data by ID - Side Scroller -------
+    let data = await side_scroller.getSideScrollerDataById(req.params.id);
     if (data === null){
         res.status(404).json(ERROR_NOT_FOUND);                      // if no match
     } else {
         res.status(200).json(data);                                 // if match
     }}));
+
+app.get('/side-scroller/:levelId', asyncHandler (async (req, res) => {    // ------ ENDPOINT #3.2: Pull data by levelId - Side Scroller -------
+    let data = await side_scroller.getSideScrollerDataByLevelId(req.params.id);
+    if (data === null){
+        res.status(404).json(ERROR_NOT_FOUND);                      // if no match
+    } else {
+        res.status(200).json(data);                                 // if match
+    }}));
+
+app.get('/habits/:id', asyncHandler (async (req, res) => {    // ------ ENDPOINT #3: Pull data by ID - Habits -------
+    let habit_entry = await habits.getHabitsDataById(req.params.id);
+    if (habit_entry === null){
+        res.status(404).json(ERROR_NOT_FOUND);                              // if no match
+    } else {
+        res.status(200).json(habit_entry);                                  // if match
+    }}));
+
+app.get('/hikes/:id', asyncHandler (async (req, res) => {    // ------ ENDPOINT #3: Pull data by ID - Side Scroller -------
+    let hike_entry = await hikes.getHikesDataById(req.params.id);
+    if (hike_entry === null){
+        res.status(404).json(ERROR_NOT_FOUND);                            // if no match
+    } else {
+        res.status(200).json(hike_entry);                                 // if match
+    }}));
+
+// --------------------------------------------- UPDATE OPERATIONS ---------------------------------------------------------
 
 app.put('/data_entries/:id', asyncHandler (async (req, res) => {    // --------ENDPOINT #4: Update data---------
     // Check validity:
