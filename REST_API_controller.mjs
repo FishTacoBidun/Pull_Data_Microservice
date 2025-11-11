@@ -12,7 +12,8 @@ import * as side_scroller from './side_scroller_model.mjs;
 import * as habits from './habits_model.mjs;
 import * as hikes from './hikes_model.mjs;
 
-import create_calorie_entry from './REST_API_model.mjs';     // we may need to individually import these, but maybe not...I'm not sure right now.
+/*
+import createCalorieEntry from './REST_API_model.mjs';     // we may need to individually import these, but maybe not...I'm not sure right now.
 import create_side_scroller_data from './REST_API_model.mjs'; 
 import create_hikes_data from'./REST_API_model.mjs'; 
 import create_habits_data from'./REST_API_model.mjs'; 
@@ -32,6 +33,7 @@ import deleteCalorieEntryById from'./REST_API_model.mjs';
 import deleteSideScrollerDataById from'./REST_API_model.mjs'; 
 import deleteHikesDataById from'./REST_API_model.mjs'; 
 import deleteHabitsDataById from'./REST_API_model.mjs'; 
+*/
 
 const ERROR_NOT_FOUND = {Error: "Not found"};
 const ERROR_INVALID_REQ = {Error: "Invalid request"};
@@ -45,18 +47,73 @@ app.listen(PORT, async () => {
     console.log(`Server listening on port ${PORT}...`);
 });
 
-app.post('/data_entries', asyncHandler (async (req, res) => {       // --------ENDPOINT #1: Create new data--------
+// --------------------------------------------- CREATE OPERATIONS ----------------------------------------------------
+
+app.post('/calories', asyncHandler (async (req, res) => {       // -------- ENDPOINT #1: Create new data - Calories --------
     // Check validity:
         
     // Continue if valid:
-        const result = await data.createEntry(
-            req.body.key1,                                          // data points we want to save (keys of the values)
-            req.body.key2,
-            req.body.key3,
-            req.body.key4,
-            req.body.key5);
-        res.status(201).json(result);                               // successful result response
+        const result = await calories.createCalorieEntry(
+            req.body.date,                                         
+            req.body.duration,
+            req.body.type,
+            req.body.calories,
+            req.body.name,
+            req.body.image);
+        res.status(201).json(result);                              
     }));
+
+app.post('/selections', asyncHandler (async (req, res) => {       // --------ENDPOINT #1: Create new data - Selections --------
+    // Check validity:
+        
+    // Continue if valid:
+        const result = await selection.createSelectionEntry(
+            req.body.name,                                         
+            req.body.calories,
+            req.body.image,
+            req.body.ingredients,
+            req.body.type);
+        res.status(201).json(result);                              
+    }));
+
+app.post('/side_scroller', asyncHandler (async (req, res) => {       // --------ENDPOINT #1: Create new data - Side-Scroller Info --------
+    // Check validity:
+        
+    // Continue if valid:
+        const result = await side_scroller.create_side_scroller_data(
+            req.body.levelId,                                          
+            req.body.unlocked);
+        res.status(201).json(result);                               
+    }));                         
+
+app.post('/habits', asyncHandler (async (req, res) => {       // --------ENDPOINT #1: Create new data - Habits --------
+    // Check validity:
+        
+    // Continue if valid:
+        const result = await habits.createHabitsData(
+            req.body.name,                                         
+            req.body.date,
+            req.body.info,
+            req.body.image);
+        res.status(201).json(result);                               
+    }));
+
+app.post('/hikes', asyncHandler (async (req, res) => {       // --------ENDPOINT #1: Create new data - Hikes --------
+    // Check validity:
+        
+    // Continue if valid:
+        const result = await hikes.createEntry(
+            req.body.name,                                         
+            req.body.location,
+            req.body.distance,
+            req.body.elevtaion_gain,
+            req.body.time_to_complete,
+            req.body.date,
+            req.body.status);
+        res.status(201).json(result);                               
+    }));
+
+//-------------------------------------------------------------------------------------------------------------------------------------------
 
 app.get('/data_entires', asyncHandler (async (req, res) => {        // --------ENDPOINT #2: Pull data--------
     const data = await data_entries.functionName();                 // replace functionName w/ function info, get array of data
