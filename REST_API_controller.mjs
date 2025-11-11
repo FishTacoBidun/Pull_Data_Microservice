@@ -6,7 +6,11 @@
 import 'dotenv/config';
 import express from 'express';
 import asyncHandler from 'express-async-handler';
-import * as data_entries from './REST_API_model.mjs';        // pull schema from model
+import * as calories from './calorie_entries_model.mjs';
+import * as selections from './meals_exercises_mode.mjs;
+import * as side_scroller from './side_scroller_model.mjs;
+import * as habits from './habits_model.mjs;
+import * as hikes from './hikes_model.mjs;
 
 import create_calorie_entry from './REST_API_model.mjs';     // we may need to individually import these, but maybe not...I'm not sure right now.
 import create_side_scroller_data from './REST_API_model.mjs'; 
