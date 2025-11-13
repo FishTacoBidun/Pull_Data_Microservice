@@ -27,9 +27,9 @@ How to programmatically REQUEST data from the microservice:
       
   Formatting for a request one data entry by ID: 
   
-      await fetch() and inside the parenthesis, put the controller's imported name for the model being accessed, a slash, and the id of the entry like this: (`/name/${id}`)
+      await fetch(`/name_of_import${id}`) name_of_import is the controller's imported name for the model being accessed, a slash, and the id of the entry
           
-                 // you may need to refer to the object property to get the id, so if people was the object, (`/name/${people.id}`)
+                 // you may need to refer to the object property to get the id, so if people was the object, (`/name_of_import/${people.id}`)
               
   Examples of requests from connected programs to microservices for GET all: 
   
