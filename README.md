@@ -112,3 +112,4 @@ How to programmatically RECEIVE data from the microservice:
 
     
 UML sequence diagram: 
+<img width="755" height="435" alt="image" src="https://github.com/user-attachments/assets/d068bd73-58c7-42fb-a9b4-0f7d4b59b6d1" />
