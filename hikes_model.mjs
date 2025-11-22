@@ -104,7 +104,6 @@ const deleteHikesDataById = async(id) => {
     return
 }
 
-// Export all functions
 export { connectToDatabase, createHikesData, getHikesData, 
     getHikesDataById, updateHikesData, deleteHikesDataById, 
 };
