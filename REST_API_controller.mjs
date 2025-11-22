@@ -1,4 +1,4 @@
-// File: REST_API_controller.mjs for database microservice REST API
+// Description: controller.mjs for database microservice REST API
 // Programmers: Kelsey Shanks, Wolfgang Essink
 
 import 'dotenv/config';
