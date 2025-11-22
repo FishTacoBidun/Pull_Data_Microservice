@@ -19,7 +19,7 @@ async function connectToDatabase() {
     }
 }
 
-// Calorie-Counting App - Calorie Entries
+// Calorie-Counting App - Calorie Entries Schema and Model:
 const calorieCounterSchema = mongoose.Schema({
     date: {type: String, required: true},
     duration: {type: Number, required: true},
@@ -29,7 +29,6 @@ const calorieCounterSchema = mongoose.Schema({
     image: {type: String, required: true}
 }, { collection : 'calorie_entries' });
 
-// Compile model from schema after defining
 const Calorie_Entry = mongoose.model(CALORIES_DB_NAME, calorieCounterSchema);
 
 /**
