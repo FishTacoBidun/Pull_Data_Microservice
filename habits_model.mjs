@@ -1,5 +1,5 @@
-//File: model.mjs containing the models for the individual databases and database operations for our database_microservice REST API
-//Programmer Name: Kelsey Shanks, Wolfie Essink
+// File: habits_model.mjs for database microservice REST API
+// Programmers: Kelsey Shanks, Wolfgang Essink
 
 import mongoose from 'mongoose';
 import 'dotenv/config';
@@ -8,11 +8,7 @@ const HABITS_DB_NAME = 'habits_db';
 
 let connection = undefined;
 
-//ADD conditional to check which custom HTTP header was sent from the calling program to select DB
-//This function connects to the MongoDB server and to the database
-//'exercise_db' in that server.
-
-async function connect() {
+async function connectToDatabases() {
     try{
         connection = await mongoose.connect
             (process.env.MONGODB_CONNECT_STRING, {dbName: HABITS_DB_NAME});
@@ -23,8 +19,7 @@ async function connect() {
     }
 }
 
-//SCHEMA
-//Side-Scroller Web App
+// Habit Tracking App
 const habitsSchema = mongoose.Schema({
     name: {type: String, required: true},
     date: {type: String, required: true},
@@ -32,10 +27,9 @@ const habitsSchema = mongoose.Schema({
     image: {type: String, required: true}
 })
 
-//Compile model from schema after defining
+// Compile model from schema after defining
 const Habits_Data = mongoose.model(HABITS_DB_NAME, habitsSchema);
 
-//CREATE
 /**
 * Creates new Habits_Data object in database        
 * @param {string} name
@@ -49,7 +43,6 @@ const createHabitsData = async(name, date, info, image) => {
     return habits_data.save();
 }
 
-// GET
 /**
 * Pulls all Habits_Data objects in database as array
 * @returns {array}
@@ -69,12 +62,11 @@ const getHabitsDataById = async(id) => {
     return query.exec();
 }
 
-//UPDATE
 /**
 * Updates Habits_Data object in database with new data
 * @param {string} id
 * @param {object} update
-* @returns {object} updated_habits_data
+* @returns {object}
 */
 const updateHabitsData = async(id, update) => {
     await Habits_Data.updateOne({_id: id}, update).exec();
@@ -82,7 +74,6 @@ const updateHabitsData = async(id, update) => {
     return updated_habits_data;
 }
 
-//DELETE 
 /**
 * Deletes Habits_Data object from database
 * @param {string} id
@@ -93,7 +84,7 @@ const deleteHabitsDataById = async(id) => {
 }
 
 
-//Export all functions
-export { connect, createHabitsData, getHabitsData, 
+// Export all functions
+export { connectToDatabases, createHabitsData, getHabitsData, 
     getHabitsDataById, updateHabitsData, deleteHabitsDataById, 
 };
