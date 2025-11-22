@@ -5,7 +5,7 @@
 import mongoose from 'mongoose';
 import 'dotenv/config';
 
-const CALORIES_DB_NAME = 'calories_db';
+const CALORIES_DB_NAME = 'calories_db';      
 
 let connection = undefined;
 
@@ -72,6 +72,15 @@ const getCalorieEntries = async() => {
 }
 
 /**
+* Pulls all Calorie_Entry objects in database as array
+* @returns {array}
+*/
+const getCalorieEntriesByDate = async(date) => {
+    const query = Calorie_Entry.find({ date: { $regex: date, $options: 'i' } });    // find date that contains date
+    return query.exec();
+}
+
+/**
 * Pulls Calorie_Entry object with matching ID from database
 * @param {string} id
 * @returns {object}
@@ -82,20 +91,10 @@ const getCalorieEntryById = async(id) => {
 }
 
 /**
-* Pulls Calorie_Entry object with matching date from database
-* @param {string} date
-* @returns {object}
-*/
-const getCalorieEntryByDate = async(date) => {
-    const query = Calorie_Entry.filter(entry => (entry.date).includes(date));
-    return query.exec();
-}
-
-/**
 * Updates Calorie_Entry object in database with new data
 * @param {string} id
 * @param {object} update
-* @returns {object}
+* @returns {object} updatedCalorieEntry
 */
 const updateCalorieEntry = async(id, update) => {
     await Calorie_Entry.updateOne({_id: id}, update).exec();
@@ -113,4 +112,4 @@ const deleteCalorieEntryById = async(id) => {
 }
 
 export { connectToDatabase, createCalorieEntry, getCalorieEntries, getCalorieEntryById, 
-    getCalorieEntryByDate, updateCalorieEntry, deleteCalorieEntryById};
+    getCalorieEntriesByDate, updateCalorieEntry, deleteCalorieEntryById};
