@@ -1,4 +1,4 @@
-// File: side_scroller_model.mjs for database microservice REST API
+// Description: Side-Scroller Web App model.mjs for database microservice REST_API
 // Programmers: Kelsey Shanks, Wolfgang Essink
 
 import mongoose from 'mongoose';
