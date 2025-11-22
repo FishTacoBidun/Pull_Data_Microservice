@@ -8,7 +8,7 @@ const HIKES_DB_NAME = 'hikes_db';
 
 let connection = undefined;
 
-async function connectToDatabases() {
+async function connectToDatabase() {
     try{
         connection = await mongoose.connect
             (process.env.MONGODB_CONNECT_STRING, {dbName: HIKES_DB_NAME});
@@ -44,7 +44,15 @@ const Hikes_Data = mongoose.model(HIKES_DB_NAME, hikesSchema);
 * @param {string} status (planned or completed)
 * @returns {object} hikes_data
 */
-const createHikesData = async(name, location, distance, elevation_gain, time_to_complete, date, status) => { 
+const createHikesData = async(
+    name, 
+    location, 
+    distance, 
+    elevation_gain, 
+    time_to_complete, 
+    date, 
+    status
+) => { 
     const hikes_data = new Hikes_Data({
         name: name,
         location: location, 
@@ -98,6 +106,6 @@ const deleteHikesDataById = async(id) => {
 }
 
 // Export all functions
-export { connectToDatabases, createHikesData, getHikesData, 
+export { connectToDatabase, createHikesData, getHikesData, 
     getHikesDataById, updateHikesData, deleteHikesDataById, 
 };
