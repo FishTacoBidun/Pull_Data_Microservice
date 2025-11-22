@@ -19,13 +19,12 @@ async function connectToDatabase() {
     }
 }
 
-// Side-Scroller Web App
+// Side-Scroller Web App - Schema and Model:
 const sideScrollerSchema = mongoose.Schema({
     levelId: {type: Number, required: true, unique: true},
     unlocked: {type: Boolean, required: true, default: false}
 })
 
-// Compile model from schema after defining
 const Side_Scroller_Data = mongoose.model(SIDE_SCROLLER_DB_NAME, sideScrollerSchema);
 
 /**
