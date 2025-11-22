@@ -18,11 +18,11 @@ const app = express();
 app.use(express.json());
 
 app.listen(PORT, async () => {
-    await calories.connectToDatabases();
-    await selections.connectToDatabases();
-    await side_scroller.connectToDatabases();
-    await habits.connectToDatabases();
-    await hikes.connectToDatabases();
+    await calories.connectToDatabase();
+    await selections.connectToDatabase();
+    await side_scroller.connectToDatabase();
+    await habits.connectToDatabase();
+    await hikes.connectToDatabase();
     console.log(`Server listening on port ${PORT}...`);
 });
 
