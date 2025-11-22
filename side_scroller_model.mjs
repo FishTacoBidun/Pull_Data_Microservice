@@ -94,7 +94,6 @@ const deleteSideScrollerDataById = async(id) => {
     return
 }
 
-// Export all functions
 export { connectToDatabase, createSideScrollerData, getSideScrollerData, 
     getSideScrollerDataByLevelId, getSideScrollerDataById, updateSideScrollerData, 
     deleteSideScrollerDataById
