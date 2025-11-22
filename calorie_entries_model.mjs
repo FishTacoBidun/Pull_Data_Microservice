@@ -111,6 +111,5 @@ const deleteCalorieEntryById = async(id) => {
     return
 }
 
-// Export all functions
 export { connectToDatabase, createCalorieEntry, getCalorieEntries, getCalorieEntryById, 
     getCalorieEntryByDate, updateCalorieEntry, deleteCalorieEntryById};
