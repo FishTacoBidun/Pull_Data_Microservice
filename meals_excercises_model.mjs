@@ -19,8 +19,8 @@ async function connectToDatabase() {
     }
 }
 
-// Calorie-Counting App - Meals and Exercises
-const calorieCounterSchema = mongoose.Schema({
+// Calorie-Counting App - Meals & Exercises Schema and Model:
+const calEntryOptionSchema = mongoose.Schema({
     name: {type: String, required: true},
     calories: {type: Number, required: true},
     image: {type: String, required: true}, 
@@ -28,8 +28,7 @@ const calorieCounterSchema = mongoose.Schema({
     type: {type: String, required: true},
 }, { collection : 'selections'});
 
-// Compile model from schema after defining
-const Selection_Entry = mongoose.model(CALORIES_DB_NAME, calorieCounterSchema);
+const Selection_Entry = mongoose.model(CALORIES_DB_NAME, calEntryOptionSchema);
 
 /**
 * Creates new Meal_Entry object in database
