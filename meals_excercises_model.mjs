@@ -5,31 +5,31 @@
 import mongoose from 'mongoose';
 import 'dotenv/config';
 
-const CALORIES_DB_NAME = 'calories_db_selections';
+const SELECTIONS_DB_NAME = 'calories_db_selections';         
 
 let connection = undefined;
 
 async function connectToDatabase() {
     try{
         connection = await mongoose.connect
-            (process.env.MONGODB_CONNECT_STRING, {dbName: CALORIES_DB_NAME});
-        console.log("Successfully connected to MongoDB - Exercises using Mongoose!");
+            (process.env.MONGODB_CONNECT_STRING, {dbName: SELECTIONS_DB_NAME});
+        console.log("Successfully connected to MongoDB - Selections using Mongoose!");
     } catch(err){
         console.log(err);
-        throw Error(`Could not connect to MongoDB - Exercises ${err.message}`)
+        throw Error(`Could not connect to MongoDB - Selections ${err.message}`)
     }
 }
 
 // Calorie-Counting App - Meals & Exercises Schema and Model:
-const calEntryOptionSchema = mongoose.Schema({
+const selectionsSchema = mongoose.Schema({
     name: {type: String, required: true},
     calories: {type: Number, required: true},
-    image: {type: String, required: true}, 
+    image: {type: String, required: true},            
     ingredients: {type: Array, required: true},
     type: {type: String, required: true},
-}, { collection : 'selections'});
+});
 
-const Selection_Entry = mongoose.model(CALORIES_DB_NAME, calEntryOptionSchema);
+const Selection_Entry = mongoose.model(SELECTIONS_DB_NAME, selectionsSchema);
 
 /**
 * Creates new Meal_Entry object in database
@@ -61,8 +61,8 @@ const createSelectionEntry = async(
 * Pulls all Meal_Entry objects in database as array
 * @returns {array}
 */
-const getSelections = async() => {
-    const query = Selection_Entry.find();
+const getSelectionsByType = async(type) => {
+    const query = Selection_Entry.find( { type: type });
     return query.exec();
 }
 
@@ -80,7 +80,7 @@ const getSelectionById = async(id) => {
 * Updates Meal_Entry object in database with new data
 * @param {string} id
 * @param {object} update
-* @returns {object}
+* @returns {object} updatedMealEntry
 */
 const updateSelection = async(id, update) => {
     await Selection_Entry.updateOne({_id: id}, update).exec();
@@ -97,5 +97,5 @@ const deleteSelectionById = async(id) => {
     return
 }
 
-export { connectToDatabase, createSelectionEntry, getSelections, getSelectionById, 
-    updateSelection, deleteSelectionById };
+export { connectToDatabase, createSelectionEntry, getSelectionById, 
+    getSelectionsByType, updateSelection, deleteSelectionById };
