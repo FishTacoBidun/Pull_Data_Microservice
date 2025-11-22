@@ -86,14 +86,22 @@ app.post('/hikes', asyncHandler (async (req, res) => {
 
 // --------ENDPOINT #2: Pull all data - Calories --------
 app.get('/calories', asyncHandler (async (req, res) => {
-    const calories_found = await calories.getCalorieEntries();                 
-    res.status(200).json(calories_found);                          
-    }));
+    if (req.query.date !== undefined){
+        const calories_found_by_date = await calories.getCalorieEntriesByDate(req.query.date);   
+        res.status(200).json(calories_found_by_date);
+    } else {
+        const calories_found = await calories.getCalorieEntries();          
+        res.status(200).json(calories_found);                         
+    }}));
 
 // --------ENDPOINT #2: Pull all data - Selections --------
 app.get('/selections', asyncHandler (async (req, res) => {        
-    const options_found = await selections.getSelections();                 
-    res.status(200).json(options_found);                          
+    if (req.query.type !== undefined) {
+        const options_found = await selections.getSelectionsByType(req.query.type); 
+        res.status(200).json(options_found);
+    } else {
+        res.status(404).json(ERROR_NOT_FOUND);
+    }                      
     }));
 
 // --------ENDPOINT #2: Pull all data - Side Scroller --------
@@ -283,3 +291,4 @@ app.delete('/hikes/:id', asyncHandler (async (req, res) => {
         await hikes.deleteHikesDataById(req.params.id);                     
         res.status(204).end();
 }}));
+
