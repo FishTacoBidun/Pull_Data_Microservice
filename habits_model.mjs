@@ -19,7 +19,7 @@ async function connectToDatabase() {
     }
 }
 
-// Habit Tracking App
+// Habit Tracking App Schema and Model: 
 const habitsSchema = mongoose.Schema({
     name: {type: String, required: true},
     date: {type: String, required: true},
@@ -27,7 +27,6 @@ const habitsSchema = mongoose.Schema({
     image: {type: String, required: true}
 })
 
-// Compile model from schema after defining
 const Habits_Data = mongoose.model(HABITS_DB_NAME, habitsSchema);
 
 /**
