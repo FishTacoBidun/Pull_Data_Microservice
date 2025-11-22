@@ -53,7 +53,7 @@ app.post('/selections', asyncHandler (async (req, res) => {
 
 // --------ENDPOINT #1: Create new data - Side-Scroller Info --------
 app.post('/side_scroller', asyncHandler (async (req, res) => { 
-        const result = await side_scroller.create_side_scroller_data(
+        const result = await side_scroller.createSideScrollerData(
             req.body.levelId,                                          
             req.body.unlocked);
         res.status(201).json(result);                               
