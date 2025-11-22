@@ -1,36 +1,29 @@
-//TEMP REST API (will be replaced by microservice)
-/**
-* Programmer Name: Kelsey Shanks
-*/
+// File: meals_exercises_model.mjs for database microservice REST API
+// Programmers: Kelsey Shanks, Wolfgang Essink
+
 import mongoose from 'mongoose';
 import 'dotenv/config';
 
-const CALORIES_DB_NAME = 'calories_db_selections';         // update with name of data base?
+const CALORIES_DB_NAME = 'calories_db_selections';
 
 let connection = undefined;
 
-// ADD conditional to check which custom HTTP header was sent from the calling program to select DB
-/**
-* This function connects to the MongoDB server and to the database
-* 'exercise_db' in that server.
-*/
-async function connect() {
+async function connectToDatabases() {
     try{
         connection = await mongoose.connect
             (process.env.MONGODB_CONNECT_STRING, {dbName: CALORIES_DB_NAME});
-        console.log("Successfully connected to MongoDB - Selections using Mongoose!");
+        console.log("Successfully connected to MongoDB - Exercises using Mongoose!");
     } catch(err){
         console.log(err);
-        throw Error(`Could not connect to MongoDB - Selections ${err.message}`)
+        throw Error(`Could not connect to MongoDB - Exercises ${err.message}`)
     }
 }
 
-// Schema - Calorie-Counter App: Meals
-
+// Calorie-Counting App - Meals and Exercises
 const calorieCounterSchema = mongoose.Schema({
     name: {type: String, required: true},
     calories: {type: Number, required: true},
-    image: {type: String, required: true},              // store image path as string?
+    image: {type: String, required: true}, 
     ingredients: {type: Array, required: true},
     type: {type: String, required: true},
 }, { collection : 'selections'});
@@ -81,7 +74,7 @@ const getSelectionById = async(id) => {
 * Updates Meal_Entry object in database with new data
 * @param {string} id
 * @param {object} update
-* @returns {object} updatedMealEntry
+* @returns {object}
 */
 const updateSelection = async(id, update) => {
     await Selection_Entry.updateOne({_id: id}, update).exec();
@@ -98,5 +91,6 @@ const deleteSelectionById = async(id) => {
     return
 }
 
-export { connect, createSelectionEntry, getSelections, getSelectionById, 
+// Export all functions
+export { connectToDatabases, createSelectionEntry, getSelections, getSelectionById, 
     updateSelection, deleteSelectionById };
