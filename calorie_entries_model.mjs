@@ -1,19 +1,14 @@
-//TEMP REST API (will be replaced by microservice)
-/**
-* Programmer Name: Kelsey Shanks
-*/
+// File: calorie_entires_model.mjs for database microservice REST API
+// Programmers: Kelsey Shanks, Wolfgang Essink
+
 import mongoose from 'mongoose';
 import 'dotenv/config';
 
-const CALORIES_DB_NAME = 'calories_db';         // update with name of data base?
+const CALORIES_DB_NAME = 'calories_db';
 
 let connection = undefined;
 
-/**
-* This function connects to the MongoDB server and to the database
-* 'exercise_db' in that server.
-*/
-async function connect() {
+async function connectToDatabases() {
     try{
         connection = await mongoose.connect
             (process.env.MONGODB_CONNECT_STRING, {dbName: CALORIES_DB_NAME});
@@ -24,7 +19,7 @@ async function connect() {
     }
 }
 
-// Schema - Calorie-Counter App:  Calorie_Entry
+// Calorie-Counting App - Calorie Entries
 const calorieCounterSchema = mongoose.Schema({
     date: {type: String, required: true},
     duration: {type: Number, required: true},
@@ -93,7 +88,7 @@ const getCalorieEntryByDate = async(date) => {
 * Updates Calorie_Entry object in database with new data
 * @param {string} id
 * @param {object} update
-* @returns {object} updatedCalorieEntry
+* @returns {object}
 */
 const updateCalorieEntry = async(id, update) => {
     await Calorie_Entry.updateOne({_id: id}, update).exec();
@@ -110,5 +105,6 @@ const deleteCalorieEntryById = async(id) => {
     return
 }
 
-export { connect, createCalorieEntry, getCalorieEntries, getCalorieEntryById, 
+// Export all functions
+export { connectToDatabases, createCalorieEntry, getCalorieEntries, getCalorieEntryById, 
     getCalorieEntryByDate, updateCalorieEntry, deleteCalorieEntryById};
